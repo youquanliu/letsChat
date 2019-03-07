@@ -4,10 +4,11 @@ const mongoose = require('mongoose');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const path = require("path");
 
-const port = process.env.PORT || 3030;
+const port = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, 'frontend/build')));
+app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -18,9 +19,9 @@ var Message = mongoose.model('Message', {
     message: String 
 });
 
-app.get('*', (req,res)=>{
-    res.sendFile(path.join(__dirname + '/front/build/index.html'))
-})
+// app.get('*', (req,res)=>{
+//     res.sendFile(path.join(__dirname + '/frontend/build/index.html'))
+// })
 
 app.get('/messages', (req, res) => {
     Message.find({}, (err,messages)=>{  //{} all the messages from db
